@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<form>
+		<label>Amount</label>
+		<input type="number" name="Amount" value="" id="input">
+		<select id="select">
+			<option></option>
+		</select>
+		<button type="button" id="btnSubmit" value="Change">Change</button>
+	</form>
+	<p id="changed"></p>VND
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+        method: 'GET',
+        url: 'https://localhost:44396/api/Currencies/',
+        headers: {
+            'content-type': 'application/json'
+        },
+        success: function(data){
+        	console.log(data);
+        	htmlContent = "";
+        	for (var i = 0; i < data.length; i++) {
+				htmlContent += '<option value="' + data[i].ratio + '" class="opt">' + data[i].id + '</option>';
+        	}
+        	$("#select").html(htmlContent);
+        },
+        error: function(){
+
+        }	
+	})
+	});
+	$("#btnSubmit").click(function(){
+		$('#changed').text($('.opt:selected').val() * $('#input').val());
+	});
+</script>
+</html>
